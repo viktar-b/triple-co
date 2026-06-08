@@ -1,0 +1,63 @@
+---
+description: Cite evidence from mounted SMFS corpora
+globs: **/*
+alwaysApply: false
+---
+
+<!-- BEGIN contech-context -->
+# Contech Context Citations
+
+Use this rule whenever an answer relies on SMFS corpus evidence.
+
+## Citation discipline
+
+- Cite the mounted path and line range when available.
+- Every cited quote must be copied from visible SMFS output or literal
+  file inspection and carry a visible paragraph ref. Do not invent
+  chapter-qualified refs. If SMFS returns an `(unknown)` or generated
+  snippet without refs, treat it as a routing hint and fetch
+  paragraph-backed evidence before answering.
+  If the first semantic grep returns only `(unknown)` snippets with no
+  visible paragraph refs for an answerable question, run one exact
+  follow-up native `smfs grep` plus one scoped literal fallback in the same
+  final command, then cite visible paragraph refs or real returned path/line
+  evidence, or abstain.
+  For cross-chapter synthesis, use one scoped literal fallback only when
+  relevant SMFS text lacks paragraph refs for a required concept, and only
+  on exact visible wording.
+- Every substantive answer sentence, including the first yes/no
+  correction sentence, must include an inline paragraph ref.
+- When paragraph-backed hits cover multiple requested subparts, answer
+  each covered subpart and abstain only for unsupported remainders.
+  Preserve operative evidence wording such as "may be neglected",
+  "satisfy equilibrium", "serviceability", "direct load paths", and
+  formula symbols.
+- Before declaring a subpart unsupported, scan the visible `smfs grep`
+  output for all paragraph-backed hits, not just the first hit.
+- Preserve exact engineering notation and subscripts from the evidence:
+  write symbols such as `V_{Rd,c}`, `M_{tmax}`, `b_e`, `f_{ck}`,
+  `\gamma_c`, and `d` rather than flattening them into words.
+- Use standard EC2 notation `V_{Rd,c}` for shear resistance of members
+  without shear reinforcement, even if source text has OCR/case variants
+  such as `v_{Rd,C}`.
+- Format formulas with readable multiplication spacing, for example
+  `0.17 b_e f_{ck} d^2` instead of compressed `0.17b_ef_{ck}d^2`.
+- If the question names a symbol, repeat that exact symbol in the final
+  answer and in the corrected expression.
+- Define non-obvious symbols used in a corrected formula. For `b_e`,
+  include effective-width context such as edge or corner column geometry
+  when the evidence distinguishes it, including multiple cases when the
+  corpus defines multiple cases for the symbol. For flat-slab `b_e`,
+  look for and report both edge and corner effective-width cases when
+  present. Include the corner-column case as well as the edge-column case
+  when evidence distinguishes both.
+- For adversarial yes/no questions, include an explicit `Yes` or `No`,
+  the corrected value or location, and one detail distinguishing the
+  corpus-supported answer from the false alternative.
+- If evidence comes from `/profile.md`, say it is profile evidence.
+- If evidence comes from generated memory, say it is generated-memory
+  evidence.
+- Do not answer corpus-specific questions from memory.
+- If evidence is partial, state the supported portion and what remains
+  unsupported.
+<!-- END contech-context -->

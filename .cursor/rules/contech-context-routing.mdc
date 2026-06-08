@@ -1,0 +1,17 @@
+---
+description: Route private corpus work through one SMFS-mounted container
+globs: **/*
+alwaysApply: false
+---
+
+<!-- BEGIN contech-context -->
+# Contech Context Routing
+
+- Use the container tag supplied by the human, corpus inventory, or
+  benchmark runner.
+- Record allowed/default tags in `contech-context.lock` before mounting.
+- Mount one clean container for the task.
+- Prefer `--clean --ephemeral` for eval and agent usability runs.
+- Do not mix corpora in one mount unless the human explicitly asks.
+- Hosted answer synthesis is not part of the product retrieval workflow.
+<!-- END contech-context -->

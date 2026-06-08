@@ -1,0 +1,44 @@
+{
+  "bundle": "contech-context-instructions",
+  "files": [
+    {
+      "path": ".cursor/rules/contech-context-retrieval.mdc",
+      "sha256": "183e1a6c4d85d9f2e2a3aa534f7355bc4c50db1de4ccaa53a57fd1aa94d6d475"
+    },
+    {
+      "path": ".cursor/rules/contech-context-citations.mdc",
+      "sha256": "d2c307e738c9729792233b0c491c9d6fa03ace42afe3a8ecefb8062de4cf7bc2"
+    },
+    {
+      "path": ".cursor/rules/contech-context-routing.mdc",
+      "sha256": "5412415e7eeda51b814bb27fac306da23c502e3676e22fccad60b9358d6645b6"
+    },
+    {
+      "path": ".cursor/skills/planning-contech-context-queries/SKILL.md",
+      "sha256": "743c415c9910e2ad64b364830f1309efd8d8a42f6074bec9be2a56b79da3d7ac"
+    },
+    {
+      "path": ".cursor/skills/using-contech-context/SKILL.md",
+      "sha256": "8f5397571ae21c810df306e9f1808799114b79f6dc52f44bf3dcc0d033f23ab6"
+    },
+    {
+      "path": ".cursor/skills/troubleshooting-contech-context/SKILL.md",
+      "sha256": "1bc0cab320ce2de0fabb3bfe3bcf290e929559802ef8a810350215eb75f6e668"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "c80f28815e9dd566a26c184b03be565965a58e8696f32247b46c2fd30ffb61bc"
+    }
+  ],
+  "smfs": {
+    "allowed_containers": [],
+    "clean": true,
+    "default_container": null,
+    "ephemeral": true,
+    "memory_paths": "",
+    "mount_mode": "auto",
+    "mount_path": "./memory/mount",
+    "startup_timeout_seconds": 30
+  },
+  "version": "2026.06.08.2"
+}

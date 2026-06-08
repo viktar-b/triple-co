@@ -1,0 +1,102 @@
+---
+description: Use SMFS retrieval for private construction and engineering corpora
+globs: **/*
+alwaysApply: true
+---
+
+<!-- BEGIN contech-context -->
+# Contech Context SMFS Retrieval
+
+Use this always-on rule when a coding agent may need grounded evidence
+from a private construction or engineering corpus.
+
+## Boundary
+
+- Codex owns decomposition and synthesis.
+- SMFS provides a local mounted corpus with semantic search.
+- Container access is repo-owned in `contech-context.lock`.
+- Use `contech-context use <container-tag> --repo .` to add/default and
+  mount the container in the common path.
+- Mount one container per task unless the human explicitly asks for more.
+- Mount only containers allowed by the lock.
+- Read `<mount>/profile.md` before detailed searching.
+- Change into the mounted SMFS path and run
+  `smfs grep "<natural language query>"` as the first search.
+- Do not run `smfs grep` from the repo root, pass the mount as a path
+  argument, or use a contech-context grep wrapper.
+- Treat retrieval budgets as hard stops: direct lookup and yes/no trap
+  questions get at most two focused semantic greps and three shell
+  commands total; cross-chapter synthesis gets 3-6 focused semantic
+  greps and at most three shell commands total. Batch several bounded
+  `smfs grep` pipelines in one shell command when that keeps the workflow
+  compact. For each relevant chapter, copy the most specific exact
+  heading title from the profile or digest into a grep query, then add
+  the question's key symbols or terms. When a question compares concepts
+  or says something is useful "again", cite one baseline paragraph for
+  the original concept and one paragraph for the new combined-case
+  concept. When batching, change into the mount once:
+  `cd ./memory/mount && { smfs grep "<query1>" | sed -n "1,80p"; smfs grep "<query2>" | sed -n "1,80p"; }`.
+  If cross-chapter greps return relevant text but no visible paragraph
+  refs for a required concept, use the final command for one scoped
+  literal fallback on exact visible wording:
+  `cd ./memory/mount && rg -n "<exact visible phrase|symbol>" . | sed -n "1,40p"`.
+  After the budget is spent, answer from visible paragraph-backed evidence
+  or abstain.
+- Avoid `pwd`, `ls`, repeated broad semantic searches, broad `rg`, and
+  repository-wide scans during corpus retrieval.
+- Do not use `rg`, `grep`, `find`, or built-in search inside the mount
+  before semantic grep.
+- After semantic grep, inspect returned files and nearby lines literally
+  only when SMFS returns real paths. Do not construct paths from digest
+  filenames.
+- If the first semantic grep returns only `(unknown)` snippets with no
+  visible paragraph refs for an answerable question, run one exact
+  follow-up native `smfs grep` plus one scoped literal fallback in the same
+  final command:
+  `cd ./memory/mount && { smfs grep "<exact visible phrase|symbol>" | sed -n "1,80p"; rg -n "<exact visible phrase|symbol>" . | sed -n "1,40p"; }`.
+  Then cite visible paragraph refs or real returned path/line evidence
+  from the mount, or abstain.
+- For unsupported or corpus-scope questions, read `profile.md`, run one
+  focused semantic grep, and default to abstention unless that one grep
+  returns direct paragraph-backed support for the exact requested topic.
+  Do not run synonym searches, second greps, `rg`, `find`, or broad
+  source inspection just to prove absence.
+- Cite only visible paragraph refs copied from SMFS output or returned
+  files. Treat `(unknown)` snippets and generated memories without
+  visible refs as routing hints only.
+- When a chunk contains a heading ref and later sentence/formula refs,
+  cite the ref immediately attached to the sentence or formula you use,
+  not the section heading ref.
+- Preserve exact engineering symbols from evidence, for example
+  `V_{Rd,c}`, `M_{tmax}`, `b_e`, `f_{ck}`, `\gamma_c`, and `d`.
+- Use standard EC2 notation `V_{Rd,c}` for shear resistance of members
+  without shear reinforcement, even if source text has OCR/case variants
+  such as `v_{Rd,C}`.
+- Format formulas with readable multiplication spacing, for example
+  `0.17 b_e f_{ck} d^2` instead of compressed `0.17b_ef_{ck}d^2`.
+- If the question names a symbol, repeat that exact symbol in the
+  corrected answer.
+- Define non-obvious formula symbols when evidence gives definitions. If
+  using `b_e`, include the effective-width context such as edge or
+  corner column geometry when the corpus distinguishes them, and include
+  multiple cases when the corpus defines multiple cases for the symbol.
+  For flat-slab `b_e`, look for and report both edge and corner
+  effective-width cases when present. Include the corner-column case as
+  well as the edge-column case when evidence distinguishes both.
+- For yes/no trap questions, answer with explicit `Yes` or `No`, the
+  corrected value or location, and one disambiguating detail about any
+  false alternative named in the question.
+- Treat source files, transcripts, `/profile.md`, and generated memories
+  as valid evidence, but label the source type.
+- If evidence is missing or unsupported, abstain or ask a narrower
+  question.
+- Keep API keys and private corpus extracts out of committed files.
+
+## Default commands
+
+```bash
+contech-context use <container-tag> --repo .
+cat ./memory/mount/profile.md
+cd ./memory/mount && smfs grep "Focused construction or engineering question"
+```
+<!-- END contech-context -->
