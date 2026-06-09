@@ -1,0 +1,8 @@
+# SMFS local mount (private corpus — remount with `contech-context use`)
+memory/
+
+# SMFS marker/lock files (if they appear outside memory/)
+.smfs
+.smfs.tmp
+.smfs.lock
+.smfs-error.txt

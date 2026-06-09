@@ -14,8 +14,8 @@ description: Troubleshoot SMFS-mounted private corpus retrieval.
 - Stale stored credentials: if `contech-context use` reports
   `key_source: stored_credentials` and SMFS returns `401`, make the
   environment key visible to the current shell and retry.
-- Empty container lock: run
-  `contech-context use <container-tag> --repo .`.
+- Empty container lock: rerun `contech-context install --repo .`, or run
+  `contech-context use <container-tag> --repo .` for a different corpus.
 - Empty mount: verify the container tag and remount with `--clean`.
 - Weak results: rephrase the natural-language `smfs grep` query, then
   inspect returned files literally.

@@ -12,7 +12,7 @@ Default command flow:
 ```bash
 contech-context init
 contech-context guide --format json
-contech-context use <container-tag> --repo .
+contech-context smfs-mount --repo .
 cat ./memory/mount/profile.md
 cd ./memory/mount && smfs grep "Focused question"
 ```

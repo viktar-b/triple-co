@@ -7,8 +7,10 @@ alwaysApply: false
 <!-- BEGIN contech-context -->
 # Contech Context Routing
 
-- Use the container tag supplied by the human, corpus inventory, or
-  benchmark runner.
+- Use the installed default `structural-engineering-corpora` container
+  unless the human, corpus inventory, or benchmark runner supplies another
+  tag. The default is a prototype corpus currently centered on notes related
+  to concrete design to Eurocode 2 (EC2).
 - Record allowed/default tags in `contech-context.lock` before mounting.
 - Mount one clean container for the task.
 - Prefer `--clean --ephemeral` for eval and agent usability runs.

@@ -15,8 +15,13 @@ from a private construction or engineering corpus.
 - Codex owns decomposition and synthesis.
 - SMFS provides a local mounted corpus with semantic search.
 - Container access is repo-owned in `contech-context.lock`.
+- Fresh installs allow/default `structural-engineering-corpora`.
+- The default container is a prototype corpus currently centered on notes
+  related to concrete design to Eurocode 2 (EC2).
+- Use `contech-context smfs-mount --repo .` to mount the installed default
+  container in the common path.
 - Use `contech-context use <container-tag> --repo .` to add/default and
-  mount the container in the common path.
+  mount a different container.
 - Mount one container per task unless the human explicitly asks for more.
 - Mount only containers allowed by the lock.
 - Read `<mount>/profile.md` before detailed searching.
@@ -95,7 +100,7 @@ from a private construction or engineering corpus.
 ## Default commands
 
 ```bash
-contech-context use <container-tag> --repo .
+contech-context smfs-mount --repo .
 cat ./memory/mount/profile.md
 cd ./memory/mount && smfs grep "Focused construction or engineering question"
 ```

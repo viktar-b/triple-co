@@ -7,11 +7,16 @@ mounts the corpus as a local filesystem with semantic search.
 
 ### Required SMFS Protocol
 
-1. Allow/default and mount one corpus container for the task:
+1. Mount the default corpus container for the task:
 
    ```bash
-   contech-context use <container-tag> --repo .
+   contech-context smfs-mount --repo .
    ```
+
+   Fresh installs allow/default the `structural-engineering-corpora`
+   container tag. This is a prototype corpus currently centered on notes
+   related to concrete design to Eurocode 2 (EC2). Use
+   `contech-context use <container-tag> --repo .` to switch containers.
 
 2. Read `./memory/mount/profile.md` once for the corpus overview.
 3. For the first search inside a mounted SMFS path, change into the mount
