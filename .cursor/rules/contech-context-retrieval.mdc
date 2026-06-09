@@ -22,11 +22,22 @@ from a private construction or engineering corpus.
   container in the common path.
 - Use `contech-context use <container-tag> --repo .` to add/default and
   mount a different container.
+- Use `contech-context containers mount-path <path> --repo .` to persist a
+  non-default mount path, and use `contech-context containers smfs-home
+  /tmp/h --repo .` when a long container tag needs a shorter SMFS socket
+  home on macOS.
 - Mount one container per task unless the human explicitly asks for more.
 - Mount only containers allowed by the lock.
-- Read `<mount>/profile.md` before detailed searching.
+- Read `<mount>/profile.md` before detailed searching. `<mount>` is the
+  `smfs.mount_path` value in `contech-context.lock`; default examples use
+  `./memory/mount`, but custom mounts such as `./m` must use the actual
+  lock path.
 - Change into the mounted SMFS path and run
   `smfs grep "<natural language query>"` as the first search.
+- If `smfs.smfs_home` is set in the lock or `CONTECH_CONTEXT_SMFS_HOME` is
+  used for mounting, run SMFS management and search commands with that
+  value as `HOME`, for example `cd <mount> && HOME=/tmp/h smfs grep
+  "<query>"`.
 - Do not run `smfs grep` from the repo root, pass the mount as a path
   argument, or use a contech-context grep wrapper.
 - Treat retrieval budgets as hard stops: direct lookup and yes/no trap
@@ -40,11 +51,11 @@ from a private construction or engineering corpus.
   or says something is useful "again", cite one baseline paragraph for
   the original concept and one paragraph for the new combined-case
   concept. When batching, change into the mount once:
-  `cd ./memory/mount && { smfs grep "<query1>" | sed -n "1,80p"; smfs grep "<query2>" | sed -n "1,80p"; }`.
+  `cd <mount> && { HOME=<smfs_home> smfs grep "<query1>" | sed -n "1,80p"; HOME=<smfs_home> smfs grep "<query2>" | sed -n "1,80p"; }`.
   If cross-chapter greps return relevant text but no visible paragraph
   refs for a required concept, use the final command for one scoped
   literal fallback on exact visible wording:
-  `cd ./memory/mount && rg -n "<exact visible phrase|symbol>" . | sed -n "1,40p"`.
+  `cd <mount> && rg -n "<exact visible phrase|symbol>" . | sed -n "1,40p"`.
   After the budget is spent, answer from visible paragraph-backed evidence
   or abstain.
 - Avoid `pwd`, `ls`, repeated broad semantic searches, broad `rg`, and
@@ -58,7 +69,7 @@ from a private construction or engineering corpus.
   visible paragraph refs for an answerable question, run one exact
   follow-up native `smfs grep` plus one scoped literal fallback in the same
   final command:
-  `cd ./memory/mount && { smfs grep "<exact visible phrase|symbol>" | sed -n "1,80p"; rg -n "<exact visible phrase|symbol>" . | sed -n "1,40p"; }`.
+  `cd <mount> && { HOME=<smfs_home> smfs grep "<exact visible phrase|symbol>" | sed -n "1,80p"; rg -n "<exact visible phrase|symbol>" . | sed -n "1,40p"; }`.
   Then cite visible paragraph refs or real returned path/line evidence
   from the mount, or abstain.
 - For unsupported or corpus-scope questions, read `profile.md`, run one
@@ -91,8 +102,9 @@ from a private construction or engineering corpus.
 - For yes/no trap questions, answer with explicit `Yes` or `No`, the
   corrected value or location, and one disambiguating detail about any
   false alternative named in the question.
-- Treat source files, transcripts, `/profile.md`, and generated memories
-  as valid evidence, but label the source type.
+- Treat returned source files and `/profile.md` as valid evidence, but
+  label the source type. Unanchored generated-memory snippets are routing
+  hints only.
 - If evidence is missing or unsupported, abstain or ask a narrower
   question.
 - Keep API keys and private corpus extracts out of committed files.
@@ -104,4 +116,8 @@ contech-context smfs-mount --repo .
 cat ./memory/mount/profile.md
 cd ./memory/mount && smfs grep "Focused construction or engineering question"
 ```
+
+When `smfs.mount_path` is not `./memory/mount`, substitute that configured
+mount path. When `smfs.smfs_home` is set, prefix native SMFS commands with
+`HOME=<smfs_home>`.
 <!-- END contech-context -->

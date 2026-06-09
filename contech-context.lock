@@ -3,11 +3,11 @@
   "files": [
     {
       "path": ".cursor/rules/contech-context-retrieval.mdc",
-      "sha256": "1926bc384cf2a813a5bd7444fc148eda8be2622a0a04ba6bab18ef7755bba69d"
+      "sha256": "47db6729ee442f23b4754114b4c85f5498ef895b98c0a1ecc13b259578f214f4"
     },
     {
       "path": ".cursor/rules/contech-context-citations.mdc",
-      "sha256": "d2c307e738c9729792233b0c491c9d6fa03ace42afe3a8ecefb8062de4cf7bc2"
+      "sha256": "0566ad44ea3e9019f997f23a13f11100971315cdd5b4eb58f6dca29d60c5e43c"
     },
     {
       "path": ".cursor/rules/contech-context-routing.mdc",
@@ -27,7 +27,7 @@
     },
     {
       "path": "AGENTS.md",
-      "sha256": "9f948b04185c450db0332066921e2b2f455e40195d0bf201992b19ad70c53bfc"
+      "sha256": "07bf1d950abd9a93d2a7650471090debdf784067d0f324005289a2e6d274046f"
     }
   ],
   "smfs": {
@@ -42,5 +42,5 @@
     "mount_path": "./memory/mount",
     "startup_timeout_seconds": 30
   },
-  "version": "2026.06.09.1"
+  "version": "2026.06.09.5"
 }

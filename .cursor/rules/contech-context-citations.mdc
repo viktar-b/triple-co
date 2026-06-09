@@ -55,8 +55,9 @@ Use this rule whenever an answer relies on SMFS corpus evidence.
   the corrected value or location, and one detail distinguishing the
   corpus-supported answer from the false alternative.
 - If evidence comes from `/profile.md`, say it is profile evidence.
-- If evidence comes from generated memory, say it is generated-memory
-  evidence.
+- If evidence comes from a paragraph-backed generated-memory snippet,
+  say it is generated-memory evidence. Unanchored generated-memory
+  snippets are routing hints only.
 - Do not answer corpus-specific questions from memory.
 - If evidence is partial, state the supported portion and what remains
   unsupported.

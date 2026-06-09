@@ -17,14 +17,26 @@ mounts the corpus as a local filesystem with semantic search.
    container tag. This is a prototype corpus currently centered on notes
    related to concrete design to Eurocode 2 (EC2). Use
    `contech-context use <container-tag> --repo .` to switch containers.
+   Long container tags on macOS may need a short SMFS home such as `/tmp/h`;
+   record it with `contech-context containers smfs-home /tmp/h --repo .`
+   or pass `--smfs-home /tmp/h --save-smfs-home` when mounting. Prefer
+   persisting in the lock so agents read `smfs.smfs_home`; one-shot env or
+   flag overrides require the same `HOME` on later native `smfs` commands.
 
-2. Read `./memory/mount/profile.md` once for the corpus overview.
+2. Read `<mount>/profile.md` once for the corpus overview, where
+   `<mount>` is `smfs.mount_path` from `contech-context.lock`
+   (`./memory/mount` by default). If `smfs.smfs_home` is set in the lock
+   or `CONTECH_CONTEXT_SMFS_HOME` was used for mounting, run `smfs` list,
+   status, logs, unmount, and grep commands with that value as `HOME`.
 3. For the first search inside a mounted SMFS path, change into the mount
    and use native semantic grep:
 
    ```bash
-   cd ./memory/mount && smfs grep "Focused construction or engineering question"
+   cd <mount> && HOME=<smfs_home> smfs grep "Focused construction or engineering question"
    ```
+
+   Omit the `HOME=<smfs_home>` prefix only when no SMFS home override is
+   configured.
 
 4. Do not run `smfs grep` from the repo root, do not pass the mount as a
    path argument, and do not use a contech-context grep wrapper.
@@ -40,11 +52,11 @@ mounts the corpus as a local filesystem with semantic search.
    paragraph for the original concept and one paragraph for the new
    combined-case concept. When batching,
    change into the mount once:
-   `cd ./memory/mount && { smfs grep "<query1>" | sed -n "1,80p"; smfs grep "<query2>" | sed -n "1,80p"; }`.
+   `cd <mount> && { HOME=<smfs_home> smfs grep "<query1>" | sed -n "1,80p"; HOME=<smfs_home> smfs grep "<query2>" | sed -n "1,80p"; }`.
    If cross-chapter greps return relevant text but no visible paragraph
    refs for a required concept, use the final command for one scoped
    literal fallback on exact visible wording:
-   `cd ./memory/mount && rg -n "<exact visible phrase|symbol>" . | sed -n "1,40p"`.
+   `cd <mount> && rg -n "<exact visible phrase|symbol>" . | sed -n "1,40p"`.
    Once the budget is spent, stop searching and answer only from visible
    paragraph-backed evidence, or abstain. Avoid `pwd`, `ls`, repeated
    broad searches, broad `rg`, guessed source paths, and command loops.
@@ -59,7 +71,7 @@ mounts the corpus as a local filesystem with semantic search.
    paths from profile or digest filenames. Use the final command to combine
    one exact follow-up native `smfs grep` with one scoped literal fallback
    from inside the mount for exact visible text:
-   `cd ./memory/mount && { smfs grep "<exact visible phrase|symbol>" | sed -n "1,80p"; rg -n "<exact visible phrase|symbol>" . | sed -n "1,40p"; }`.
+   `cd <mount> && { HOME=<smfs_home> smfs grep "<exact visible phrase|symbol>" | sed -n "1,80p"; rg -n "<exact visible phrase|symbol>" . | sed -n "1,40p"; }`.
    Then cite visible paragraph refs or real returned path/line evidence
    from the mount, or abstain. `(unknown)` chunks with visible refs such as
    `[p106]` are citable paragraph-backed evidence; `(unknown)` chunks
@@ -69,12 +81,13 @@ mounts the corpus as a local filesystem with semantic search.
    returns direct paragraph-backed support for the exact requested topic.
    Do not run synonym searches, second greps, `rg`, `find`, or broad
    source inspection just to prove absence.
-9. `/profile.md`, source files, transcripts, and generated memories are
-   all valid evidence when they are inside the mounted corpus. Label the
-   source type when citing evidence.
+9. `/profile.md` and returned source files are valid evidence when they
+   are inside the mounted corpus. Label the source type when citing
+   evidence.
 10. Cite only visible paragraph refs copied from SMFS output or literal
-    file inspection. Treat `(unknown)` snippets or generated memories
-    without visible refs as routing hints, not final citable evidence.
+    file inspection. Treat `(unknown)` snippets and unanchored
+    generated-memory snippets without visible refs as routing hints, not
+    final citable evidence.
     If needed for an answerable question, run one exact focused follow-up
     `smfs grep` to obtain paragraph-backed evidence.
     When a chunk contains a heading ref and later sentence/formula refs,
