@@ -31,15 +31,22 @@ from a private construction or engineering corpus.
 - Read `<mount>/profile.md` before detailed searching. `<mount>` is the
   `smfs.mount_path` value in `contech-context.lock`; default examples use
   `./memory/mount`, but custom mounts such as `./m` must use the actual
-  lock path.
-- Change into the mounted SMFS path and run
-  `smfs grep "<natural language query>"` as the first search.
-- If `smfs.smfs_home` is set in the lock or `CONTECH_CONTEXT_SMFS_HOME` is
-  used for mounting, run SMFS management and search commands with that
-  value as `HOME`, for example `cd <mount> && HOME=/tmp/h smfs grep
-  "<query>"`.
-- Do not run `smfs grep` from the repo root, pass the mount as a path
-  argument, or use a contech-context grep wrapper.
+  lock path. `contech-context smfs-mount` publishes a repo-root `.smfs`
+  marker so `smfs grep "<query>" <mount>` works from the repo root.
+- Use native `smfs grep` against the mounted SMFS path as the first search,
+  either by changing into the mount first or by passing the configured mount
+  path as the optional command argument.
+- Treat `smfs.smfs_home` as mount/setup metadata. Keep normal lookup as
+  `smfs grep "<query>" <mount>` unless troubleshooting a native SMFS home
+  issue.
+- Do not use a contech-context grep wrapper or hosted retrieval path.
+
+## Decomposition
+
+Codex breaks engineering questions into focused evidence needs, sequences the
+SMFS lookups, and synthesizes the answer. SMFS only returns mounted corpus
+evidence; do not use hosted retrieval or wrapper commands for decomposition.
+
 - Treat retrieval budgets as hard stops: direct lookup and yes/no trap
   questions get at most two focused semantic greps and three shell
   commands total; cross-chapter synthesis gets 3-6 focused semantic
@@ -50,8 +57,8 @@ from a private construction or engineering corpus.
   the question's key symbols or terms. When a question compares concepts
   or says something is useful "again", cite one baseline paragraph for
   the original concept and one paragraph for the new combined-case
-  concept. When batching, change into the mount once:
-  `cd <mount> && { HOME=<smfs_home> smfs grep "<query1>" | sed -n "1,80p"; HOME=<smfs_home> smfs grep "<query2>" | sed -n "1,80p"; }`.
+  concept. When batching, pass the mount path to each native grep:
+  `{ smfs grep "<query1>" <mount> | sed -n "1,80p"; smfs grep "<query2>" <mount> | sed -n "1,80p"; }`.
   If cross-chapter greps return relevant text but no visible paragraph
   refs for a required concept, use the final command for one scoped
   literal fallback on exact visible wording:
@@ -69,7 +76,7 @@ from a private construction or engineering corpus.
   visible paragraph refs for an answerable question, run one exact
   follow-up native `smfs grep` plus one scoped literal fallback in the same
   final command:
-  `cd <mount> && { HOME=<smfs_home> smfs grep "<exact visible phrase|symbol>" | sed -n "1,80p"; rg -n "<exact visible phrase|symbol>" . | sed -n "1,40p"; }`.
+  `{ smfs grep "<exact visible phrase|symbol>" <mount> | sed -n "1,80p"; cd <mount> && rg -n "<exact visible phrase|symbol>" . | sed -n "1,40p"; }`.
   Then cite visible paragraph refs or real returned path/line evidence
   from the mount, or abstain.
 - For unsupported or corpus-scope questions, read `profile.md`, run one
@@ -83,6 +90,14 @@ from a private construction or engineering corpus.
 - When a chunk contains a heading ref and later sentence/formula refs,
   cite the ref immediately attached to the sentence or formula you use,
   not the section heading ref.
+- Every substantive answer sentence, including the first yes/no
+  correction sentence, must include an inline paragraph ref.
+- Before finalizing, perform a citation self-check: each substantive
+  sentence has at least one inline ref; each inline ref appears as a
+  `References:` bullet; each bullet contains an exact quote copied from
+  visible retrieved output; and no bullet is left unused. Delete or
+  rewrite any sentence, inline ref, or reference bullet that fails this
+  check.
 - Preserve exact engineering symbols from evidence, for example
   `V_{Rd,c}`, `M_{tmax}`, `b_e`, `f_{ck}`, `\gamma_c`, and `d`.
 - Use standard EC2 notation `V_{Rd,c}` for shear resistance of members
@@ -114,10 +129,9 @@ from a private construction or engineering corpus.
 ```bash
 contech-context smfs-mount --repo .
 cat ./memory/mount/profile.md
-cd ./memory/mount && smfs grep "Focused construction or engineering question"
+smfs grep "Focused construction or engineering question" ./memory/mount
 ```
 
 When `smfs.mount_path` is not `./memory/mount`, substitute that configured
-mount path. When `smfs.smfs_home` is set, prefix native SMFS commands with
-`HOME=<smfs_home>`.
+mount path.
 <!-- END contech-context -->

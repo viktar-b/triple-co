@@ -5,6 +5,13 @@ Use SMFS when a task needs grounded evidence from private construction or
 engineering corpora. Codex owns decomposition and final synthesis; SMFS
 mounts the corpus as a local filesystem with semantic search.
 
+### Decomposition
+
+Codex decomposes engineering questions into focused evidence needs, decides how
+many lookups are required, and synthesizes the final answer. SMFS only supplies
+mounted corpus evidence. Do not route decomposition through hosted retrieval or
+wrapper commands.
+
 ### Required SMFS Protocol
 
 1. Mount the default corpus container for the task:
@@ -20,26 +27,29 @@ mounts the corpus as a local filesystem with semantic search.
    Long container tags on macOS may need a short SMFS home such as `/tmp/h`;
    record it with `contech-context containers smfs-home /tmp/h --repo .`
    or pass `--smfs-home /tmp/h --save-smfs-home` when mounting. Prefer
-   persisting in the lock so agents read `smfs.smfs_home`; one-shot env or
-   flag overrides require the same `HOME` on later native `smfs` commands.
+   persisting in the lock so setup and management commands can reuse the same
+   SMFS home when needed.
 
 2. Read `<mount>/profile.md` once for the corpus overview, where
    `<mount>` is `smfs.mount_path` from `contech-context.lock`
-   (`./memory/mount` by default). If `smfs.smfs_home` is set in the lock
-   or `CONTECH_CONTEXT_SMFS_HOME` was used for mounting, run `smfs` list,
-   status, logs, unmount, and grep commands with that value as `HOME`.
-3. For the first search inside a mounted SMFS path, change into the mount
-   and use native semantic grep:
+   (`./memory/mount` by default).
+3. For the first search against a mounted SMFS path, use native semantic
+   grep targeted at the mount. Either change into the mount first or pass
+   the configured mount path as the optional `smfs grep` path argument:
 
    ```bash
-   cd <mount> && HOME=<smfs_home> smfs grep "Focused construction or engineering question"
+   smfs grep "Focused construction or engineering question" <mount>
    ```
 
-   Omit the `HOME=<smfs_home>` prefix only when no SMFS home override is
-   configured.
+   Changing into the mount first is also valid, but the path-argument form is
+   the direct copy-paste default. Treat `smfs.smfs_home` as mount/setup
+   metadata; do not put it in the normal grep command unless troubleshooting a
+   native SMFS home issue. `contech-context smfs-mount` publishes a repo-root
+   `.smfs` marker so path-argument grep works from the repo root.
 
-4. Do not run `smfs grep` from the repo root, do not pass the mount as a
-   path argument, and do not use a contech-context grep wrapper.
+4. Do not use a contech-context grep wrapper or hosted retrieval path. A
+   native `smfs grep` command is valid when it targets the mounted corpus,
+   either by current working directory or by explicit mount path argument.
 5. Treat retrieval budgets as hard stops. For direct lookup and yes/no
    trap questions, run at most two focused semantic greps and at most
    three shell commands total. For cross-chapter synthesis, run 3-6
@@ -50,9 +60,9 @@ mounts the corpus as a local filesystem with semantic search.
    query, then add the question's key symbols or terms. When a question
    compares concepts or says something is useful "again", cite one baseline
    paragraph for the original concept and one paragraph for the new
-   combined-case concept. When batching,
-   change into the mount once:
-   `cd <mount> && { HOME=<smfs_home> smfs grep "<query1>" | sed -n "1,80p"; HOME=<smfs_home> smfs grep "<query2>" | sed -n "1,80p"; }`.
+   combined-case concept. When batching, pass the mount path to each native
+   grep:
+   `{ smfs grep "<query1>" <mount> | sed -n "1,80p"; smfs grep "<query2>" <mount> | sed -n "1,80p"; }`.
    If cross-chapter greps return relevant text but no visible paragraph
    refs for a required concept, use the final command for one scoped
    literal fallback on exact visible wording:
@@ -70,8 +80,8 @@ mounts the corpus as a local filesystem with semantic search.
    visible paragraph refs for an answerable question, do not guess source
    paths from profile or digest filenames. Use the final command to combine
    one exact follow-up native `smfs grep` with one scoped literal fallback
-   from inside the mount for exact visible text:
-   `cd <mount> && { HOME=<smfs_home> smfs grep "<exact visible phrase|symbol>" | sed -n "1,80p"; rg -n "<exact visible phrase|symbol>" . | sed -n "1,40p"; }`.
+   against the mount for exact visible text:
+   `{ smfs grep "<exact visible phrase|symbol>" <mount> | sed -n "1,80p"; cd <mount> && rg -n "<exact visible phrase|symbol>" . | sed -n "1,40p"; }`.
    Then cite visible paragraph refs or real returned path/line evidence
    from the mount, or abstain. `(unknown)` chunks with visible refs such as
    `[p106]` are citable paragraph-backed evidence; `(unknown)` chunks
@@ -93,6 +103,14 @@ mounts the corpus as a local filesystem with semantic search.
     When a chunk contains a heading ref and later sentence/formula refs,
     cite the ref immediately attached to the sentence or formula you use,
     not the section heading ref.
+    Every substantive answer sentence, including the first yes/no
+    correction sentence, must include an inline paragraph ref.
+    Before finalizing, perform a citation self-check: each substantive
+    sentence has at least one inline ref; each inline ref appears as a
+    `References:` bullet; each bullet contains an exact quote copied from
+    visible retrieved output; and no bullet is left unused. Delete or
+    rewrite any sentence, inline ref, or reference bullet that fails this
+    check.
     When paragraph-backed hits cover multiple requested subparts, answer
     each covered subpart and abstain only for unsupported remainders.
     Preserve operative evidence wording such as "may be neglected",

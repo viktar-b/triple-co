@@ -3,11 +3,11 @@
   "files": [
     {
       "path": ".cursor/rules/contech-context-retrieval.mdc",
-      "sha256": "47db6729ee442f23b4754114b4c85f5498ef895b98c0a1ecc13b259578f214f4"
+      "sha256": "541376cf0bf94b99374fe6e193c2b24c7278e03e8b4f1d367a53e7beb727ae75"
     },
     {
       "path": ".cursor/rules/contech-context-citations.mdc",
-      "sha256": "0566ad44ea3e9019f997f23a13f11100971315cdd5b4eb58f6dca29d60c5e43c"
+      "sha256": "7574b9aab23f17cdbcd38e1e78c54d83cdca0000dbe78d4daaee50b2c51098b0"
     },
     {
       "path": ".cursor/rules/contech-context-routing.mdc",
@@ -15,11 +15,11 @@
     },
     {
       "path": ".cursor/skills/planning-contech-context-queries/SKILL.md",
-      "sha256": "743c415c9910e2ad64b364830f1309efd8d8a42f6074bec9be2a56b79da3d7ac"
+      "sha256": "84159c70c8e6487df7346b49213f9ed8dfddd0e89e0ad77a907f62e214096b8e"
     },
     {
       "path": ".cursor/skills/using-contech-context/SKILL.md",
-      "sha256": "6555028c4c30a03d87a84f2c04ce587c757afbe54e6d332d951e60573e14bdd2"
+      "sha256": "0d1efcbc85e7dd33c2b5f85676747066ad9008f9782723a3e4442dfba003123e"
     },
     {
       "path": ".cursor/skills/troubleshooting-contech-context/SKILL.md",
@@ -27,7 +27,7 @@
     },
     {
       "path": "AGENTS.md",
-      "sha256": "07bf1d950abd9a93d2a7650471090debdf784067d0f324005289a2e6d274046f"
+      "sha256": "d5352272871b2cc38389daf1bb5e262e92f8909dadd7918a8cc35c1e6112b01f"
     }
   ],
   "smfs": {
@@ -42,5 +42,5 @@
     "mount_path": "./memory/mount",
     "startup_timeout_seconds": 30
   },
-  "version": "2026.06.09.5"
+  "version": "2026.06.21.1"
 }

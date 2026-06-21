@@ -14,7 +14,7 @@ contech-context init
 contech-context guide --format json
 contech-context smfs-mount --repo .
 cat ./memory/mount/profile.md
-cd ./memory/mount && smfs grep "Focused question"
+smfs grep "Focused question" ./memory/mount
 ```
 
 After semantic grep returns candidates, inspect returned files only when
@@ -42,7 +42,13 @@ spacing, for example `0.17 b_e f_{ck} d^2` instead of compressed
 definitions, especially geometry variables such as `b_e`. Cite only visible
 paragraph refs; generated or `(unknown)` snippets without refs are routing
 hints, not final evidence. If the question names a symbol, repeat that exact
-symbol in the corrected answer. When paragraph-backed hits cover multiple
+symbol in the corrected answer. Every substantive answer sentence, including
+the first yes/no correction sentence, must include an inline paragraph ref.
+Before finalizing, perform a citation self-check: each substantive sentence has
+at least one inline ref; each inline ref appears as a `References:` bullet; each
+bullet contains an exact quote copied from visible retrieved output; and no
+bullet is left unused. Delete or rewrite any sentence, inline ref, or reference
+bullet that fails this check. When paragraph-backed hits cover multiple
 requested subparts, answer each covered subpart and abstain only for unsupported
 remainders; preserve operative evidence wording such as "may be neglected",
 "satisfy equilibrium", "serviceability", and "direct load paths". Before declaring

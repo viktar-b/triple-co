@@ -27,6 +27,19 @@ Use this rule whenever an answer relies on SMFS corpus evidence.
   on exact visible wording.
 - Every substantive answer sentence, including the first yes/no
   correction sentence, must include an inline paragraph ref.
+- Before finalizing, perform a citation self-check:
+  each substantive sentence has at least one inline ref; each inline ref
+  appears as a `References:` bullet; each bullet contains an exact quote
+  copied from visible retrieved output; and no bullet is left unused.
+  Delete or rewrite any sentence, inline ref, or reference bullet that
+  fails this check. Do not add refs after drafting unless the matching
+  quote is already present in visible retrieved output.
+- Prefer short claim sentences with one or two refs over long compound
+  sentences. If one sentence mixes claims from different evidence
+  paragraphs, split it so each claim carries the closest paragraph ref.
+- Put inline refs before sentence-ending punctuation when possible, for
+  example `... may be neglected [p181].`, so refs visibly support the
+  sentence fragment they belong to.
 - When paragraph-backed hits cover multiple requested subparts, answer
   each covered subpart and abstain only for unsupported remainders.
   Preserve operative evidence wording such as "may be neglected",
