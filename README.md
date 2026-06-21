@@ -12,15 +12,26 @@ curl -LsSf https://get.ocr.pro/contech-context/install.sh | sh
 
 ## Reproduce this setup
 
+Latest SMFS docs recommend plain `grep` inside a mount after installing the
+one-time grep wrapper:
+
 ```bash
+smfs init
 contech-context install --repo .
 contech-context use <container-tag> --repo .
 cat ./memory/mount/profile.md
-cd ./memory/mount && smfs grep "Focused construction or engineering question"
+cd ./memory/mount && grep "Focused construction or engineering question" .
 ```
 
 `contech-context use` records the container tag in `contech-context.lock`, makes
 it the default, and mounts it at the repo's configured SMFS path.
+
+If the current shell has not loaded the SMFS grep wrapper yet, use the explicit
+semantic command instead:
+
+```bash
+smfs grep "Focused construction or engineering question" ./memory/mount
+```
 
 ## Supermemory API key
 
