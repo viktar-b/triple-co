@@ -4,6 +4,12 @@ This repository was initialized with `contech-context` so Codex and Cursor can
 work with private construction and engineering corpora through a mounted SMFS
 filesystem.
 
+## Install the CLI
+
+```bash
+curl -LsSf https://get.ocr.pro/contech-context/install.sh | sh
+```
+
 ## Reproduce this setup
 
 ```bash
